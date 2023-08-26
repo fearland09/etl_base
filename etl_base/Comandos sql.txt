@@ -1,0 +1,6 @@
+
+Usuario: root
+Password: admin
+
+SELECT * FROM DWH.resultado;
+SELECT * FROM Financiera.datos;

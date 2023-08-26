@@ -1,0 +1,21 @@
+
+/*Obtener imagenes de docker*/
+
+docker pull mysql
+
+docker pull ubuntu:16.04
+
+/* Configuracion de instancias */
+
+docker run --name mysql-financiera -v /LA RUTA DE TU EQUIPO/etl_base/docker/mysql:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=admin -p 3306:3306 -d mysql
+
+docker  build -t ubuntu-etl . -f Dockerfile.dockerfile
+
+docker run  -i -t -d -p 8080:80 --name ubuntu-etl1  -v /LA RUTA DE TU EQUIPO/etl_base/docker/ubuntu:/home --link mysql-financiera:mysql  ubuntu-etl
+
+/*configuracion de cron*/
+
+docker exec ubuntu-etl1 chmod 0644 /home/crontab
+docker exec ubuntu-etl1 crontab /home/crontab
+docker exec ubuntu-etl1 chmod 777 /home/script.sh
+docker exec ubuntu-etl1 service cron start
